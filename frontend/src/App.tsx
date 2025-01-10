@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useState } from 'react';
+import Draggable from 'react-draggable';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface BoxItem {
+  id: number;
+  type: string;
+  position: {
+    x: number;
+    y: number;
+  };
 }
 
-export default App
+function App() {
+  const [boxes, setBoxes] = useState<BoxItem[]>([]);
+
+  const addBox = (type: string): void => {
+    const newBox: BoxItem = {
+      id: boxes.length,
+      type: type,
+      position: { x: 0, y: 0 }
+    };
+    setBoxes([...boxes, newBox]);
+  };
+
+  const handleDrag = (id: number, data: { x: number; y: number }) => {
+    setBoxes(boxes.map(box => 
+      box.id === id ? { ...box, position: data } : box
+    ));
+  };
+
+  return (
+    <div className="relative h-screen w-screen">
+      {boxes.map((box) => (
+        <Draggable
+          key={box.id}
+          position={box.position}
+          onDrag={(_, data) => handleDrag(box.id, { x: data.x, y: data.y })}
+        >
+          <div className="absolute cursor-move bg-blue-500 p-4 rounded-lg">
+            {box.type}
+          </div>
+        </Draggable>
+      ))}
+      
+      <div className="fixed bottom-4 left-4 flex gap-2">
+        <button onClick={() => addBox('search')}>Add Search</button>
+        <button onClick={() => addBox('profile')}>Add Profile</button>
+      </div>
+    </div>
+  );
+}
+
+export default App;
