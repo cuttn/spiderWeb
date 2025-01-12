@@ -16,37 +16,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-button {
+a {
+  all:unset;
   color: #26ff00;
-  background-color: #848484;
 }
-button:hover {
+
+a:hover {
   color: #000dff;
   text-shadow: #26ff00 0 0 0.5em;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
