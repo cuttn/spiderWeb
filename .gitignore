@@ -28,6 +28,11 @@ ENV/
 .env
 .venv
 bin/
+Include/
+Lib/
+Scripts/
+pyvenv.cfg
+
 # Django
 *.log
 local_settings.py
