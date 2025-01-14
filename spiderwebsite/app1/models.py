@@ -1,13 +1,12 @@
 from django.db import models
 from django.core.cache import cache
-from taggit.managers import TaggableManager
-from taggit.models import TaggedItemBase
-import asyncio
-import aiohttp
 from urllib.parse import urlparse
 import re
+import asyncio
+import aiohttp
 
 class client(models.Model):
+    name = models.CharField(max_length=100, unique=True, default='')
     influencers = models.ManyToManyField('influencer', related_name='client_set')
 
 class campaign(models.Model):
@@ -29,21 +28,13 @@ class CampaignInfluencer(models.Model):
         default='active'
     )
 
-# Add these classes before your influencer model
-class AudienceTag(TaggedItemBase):
-    pass
-
-class NicheTag(TaggedItemBase):
-    pass
-
-# Create your models here.
 class influencer(models.Model):
-    adjacent_influencers = models.ManyToManyField('self', symmetrical=False, blank=True)
-    audience = TaggableManager(through=AudienceTag, related_name="audience")
-    niches = TaggableManager(through=NicheTag, related_name="niches")
+    name = models.CharField(max_length=100)
     trust = models.IntegerField()
-    name = models.CharField(max_length=100, unique=True)
-    links = models.TextField()    
+    links = models.TextField()
+    audience_tags = models.TextField(default='')  # Comma-separated strings
+    niche_tags = models.TextField(default='')     # Comma-separated strings
+
     def get_popularity(self):
         cache_key = f'influencer_popularity_{self.id}'
         popularity = cache.get(cache_key)
@@ -123,5 +114,3 @@ class influencer(models.Model):
     def _get_channel_id_from_username(self, username):
         # Implementation of _get_channel_id_from_username method
         pass
-
-    
