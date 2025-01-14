@@ -1,18 +1,24 @@
+import os
+import django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'spiderwebsite.settings')
+django.setup()
+
+# After django.setup(), we can import Django-related modules
 from app1.models import client, campaign, influencer, CampaignInfluencer
 from django.utils import timezone
 
 # Create a test client
 test_client = client.objects.create(
-    name="TestClient_6"
+    name="TestClient_asdf"
 )
     
 # Create a test influencer with string tags
 test_influencer = influencer.objects.create(
-    name="TestInfluencer_6",
-    trust=85,
-    links="https://youtube.com/test_6,https://instagram.com/test_6",
-    audience_tags="teens_6,students_6",
-    niche_tags="education_6,lifestyle_6"
+    name="TestInfluencer_asdf",
+    trust=84,
+    links="https://youtube.com/test_asdf,https://instagram.com/test_asdf",
+    audience_tags="teens_asdf,students_asdf",
+    niche_tags="education_asdf,lifestyle_asdf"
 )
 
 # Create a test campaign

@@ -2,14 +2,9 @@
 import { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 
-interface SearchResult {
-  name: string;
-  type: 'client' | 'influencer';
-}
-
 const SearchBar = () => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<SearchResult[]>([]);
+  const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -23,14 +18,14 @@ const SearchBar = () => {
         const clientResponse = await fetch(`http://127.0.0.1:8000/clients/?search=${query}`);
         const clientData = await clientResponse.json();
         console.log(clientData);
-        const clientResults = clientData.map((client: any) => ({
+        const clientResults = clientData.map((client) => ({
           name: client.name,
           type: 'client'
         }));
 
         const influencerResponse = await fetch(`http://127.0.0.1:8000/influencers/?search=${query}`);
         const influencerData = await influencerResponse.json();
-        const influencerResults = influencerData.map((influencer: any) => ({
+        const influencerResults = influencerData.map((influencer) => ({
           name: influencer.name,
           type: 'influencer'
         }));
