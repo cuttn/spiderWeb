@@ -5,7 +5,7 @@ const UserContext = createContext(null);
 
 // Provider Component
 export function UserProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState({ name: "John Doe", email: "john@example.com" });
+  const [currentUser, setCurrentUser] = useState({id : 1, type: 'influencer',});
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>

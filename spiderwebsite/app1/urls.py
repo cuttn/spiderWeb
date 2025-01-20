@@ -16,7 +16,7 @@ Including another URLconf
 """
 from rest_framework import routers
 from django.urls import path, include
-from app1.views import clientViewSet, influencerViewSet
+from app1.views import clientViewSet, influencerViewSet, getClient, getInfluencer
 
 router = routers.DefaultRouter()
 router.register(r'clients', clientViewSet)
@@ -26,5 +26,7 @@ router.register(r'influencers', influencerViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('client/<int:id>/', getClient),
+    path('influencer/<int:id>/', getInfluencer),
 ]

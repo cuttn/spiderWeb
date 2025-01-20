@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import generics
 from itertools import chain
 from .models import client, influencer
-import django_filters
+from django.http import JsonResponse
 from rest_framework import permissions, viewsets, filters
 from .serializers import clientSerializer, influencerSerializer
 from rest_framework import filters
@@ -29,7 +29,7 @@ class clientViewSet(viewsets.ModelViewSet):
     queryset = client.objects.all().order_by('name')
     serializer_class = clientSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    search_fields = ["name",]
+    search_fields = ["name", "id",]
 
 class influencerViewSet(viewsets.ModelViewSet):
     """
@@ -38,4 +38,10 @@ class influencerViewSet(viewsets.ModelViewSet):
     queryset = influencer.objects.all().order_by('name')
     serializer_class = influencerSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    search_fields = ["name",]
+    search_fields = ["name", "id",]
+    
+def getClient(request, id):
+    return JsonResponse(clientSerializer(client.objects.get(id=id)).data)
+
+def getInfluencer(request, id):
+    return JsonResponse(influencerSerializer(influencer.objects.get(id=id)).data)
